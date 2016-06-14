@@ -1,30 +1,38 @@
-NGINX RTMP Dockerfile
+NGINX RTMP Push to Multiple Stream services
 =====================
 
 This Dockerfile installs NGINX configured with `nginx-rtmp-module`, ffmpeg
-and some default settings for HLS live streaming.
-
-**Note: in the current state, this is just an experimental project to play with
-RTMP and HLS.**
+and some default settings for multiple stream services.
 
 
-How to user
+How to use:
 -----------
 
-1. Build and run the container (`docker build -t nginx_rtmp .` &
-   `docker run -p 1935:1935 -p 8080:80 --rm nginx_rtmp`).
+1. Add your stream keys to the nginx.conf file and customize the RTMP ingest servers to RTMP servers near you.
+    - [RTMP ingest servers for many streaming services](https://github.com/jp9000/obs-studio/blob/master/plugins/rtmp-services/data/services.json)
+    - Thanks mcsmike for the list link :)
 
-2. Stream your live content to `rtmp://localhost:1935/encoder/stream_name` where
-   `stream_name` is the name of your stream.
+2. Build and run the container (`docker build -t nginx_rtmp .` &
+   `docker run -d -p 1935:1935 nginx_rtmp`).
 
-3. In Safari, VLC or any HLS compatible browser / player, open
-   `http://localhost:8080/hls/stream_name.m3u8`. Note that the first time,
-   it might take a few (10-15) seconds before the stream works. This is because
-   when you start streaming to the server, it needs to generate the first
-   segments and the related playlists.
+3. Stream your live content to `rtmp://localhost:1935/stream/CHOOSE_STREAM_KEY` where
+   `CHOOSE_STREAM_KEY` is a name of your choosing.
 
+4. Check Stream services to see if we are live!
 
-Links
+5. To secure access to your streaming server change the allow and deny parameters within the nginx.conf file before running your container.
+    - allow publish 0.0.0.0/24 <--- change to your ip address
+    - deny publish all <---- leave this alone
+
+Deploy to Digitalocean using CoreOS cloud-config:
+
+1. Visit https://discovery.etcd.io/new to get a new auto-discovery token and replace within core-config.yml
+2. Visit Digitalocean and start creating a Droplet choosing CoreOS as your distrobution
+3. Under the "user-data" section of Droplet creation wizard paste the entire core-config.yml file
+4. Log-in to your CoreOS droplet and follow the "How to use" instructions above.
+    - All files from this repo should already be in /home/core/docker/nginx-rtmp
+
+More Links
 -----
 
 * http://nginx.org/
