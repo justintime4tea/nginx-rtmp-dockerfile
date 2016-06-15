@@ -30,7 +30,7 @@ RUN cd /src && git clone https://github.com/nginx/nginx.git && git clone https:/
 RUN cd /src/nginx && git checkout tags/release-1.10.1 && ./auto/configure --add-module=/src/nginx-rtmp-module --with-http_ssl_module
 
 # make and install
-RUN make && make install
+RUN cd /src/nginx && make && make install
 
 ADD nginx.conf /config/nginx.conf
 ADD static /static
