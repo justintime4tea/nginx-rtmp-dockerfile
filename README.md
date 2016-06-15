@@ -12,17 +12,17 @@ How to use:
     - [RTMP ingest servers for many streaming services](https://github.com/jp9000/obs-studio/blob/master/plugins/rtmp-services/data/services.json)
     - Thanks mcsmike for the list link :)
 
-2. Build and run the container (`docker build -t nginx_rtmp .` &
-   `docker run -d -p 1935:1935 nginx_rtmp`).
-
-3. Stream your live content to `rtmp://localhost:1935/stream/CHOOSE_STREAM_KEY` where
-   `CHOOSE_STREAM_KEY` is a name of your choosing.
-
-4. Check Stream services to see if we are live!
-
-5. To secure access to your streaming server change the allow and deny parameters within the nginx.conf file before running your container.
+2. Secure access to your streaming server by uncommenting and changing the allow and deny parameters within the nginx.conf file.
     - allow publish 0.0.0.0/24 <--- change to your ip address
     - deny publish all <---- leave this alone
+
+3. Build and run the container (`docker build -t nginx_rtmp .` &
+   `docker run -d -p 1935:1935 nginx_rtmp`).
+
+4. Stream your live content to `rtmp://localhost:1935/stream/CHOOSE_STREAM_KEY` where
+   `CHOOSE_STREAM_KEY` is a name of your choosing.
+
+5. Check Stream services to see if we are live!
 
 Deploy to Digitalocean using CoreOS cloud-config:
 
