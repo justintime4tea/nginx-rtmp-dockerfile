@@ -27,7 +27,7 @@ RUN apt-get install -y wget git
 RUN cd /src && git clone https://github.com/nginx/nginx.git && git clone https://github.com/arut/nginx-rtmp-module.git
 
 # configure nginx
-RUN cd /src/nginx && git checkout tags/release-1.10.1 && ./auto/configure --add-module=/src/nginx-rtmp-module --with-http_ssl_module
+RUN cd /src/nginx && git checkout tags/release-1.10.1 && ./auto/configure --add-module=/src/nginx-rtmp-module --with-http_ssl_module --conf-path=/config/nginx.conf --error-log-path=/logs/error.log --http-log-path=/logs/access.log
 
 # make and install
 RUN cd /src/nginx && make && make install
